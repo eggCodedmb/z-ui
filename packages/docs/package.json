@@ -1,0 +1,16 @@
+{
+  "name": "@z-element/docs",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.14.0",
+  "devDependencies": {
+    "vitepress": "1.0.0-rc.44"
+  }
+}
