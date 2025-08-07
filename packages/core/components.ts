@@ -1,9 +1,8 @@
-import { ZButton } from "@z-element/components";
-import { ZInput } from "@z-element/components";
+
 import * as components from "@z-element/components";
 
-console.log(components);
-
+const componentList = Object.values(components);
 import type { Plugin } from "vue";
 
-export default [ZButton, ZInput] as Plugin[];
+export default componentList as Plugin[];
+
