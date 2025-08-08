@@ -10,7 +10,15 @@
       <tbody>
         <tr v-for="(time, rowIndex) in timeSlots" :key="rowIndex">
           <td class="time-box">{{ time }}</td>
-          <td v-for="colIndex in days.length" :key="colIndex"></td>
+          <td
+            class="time-cell"
+            v-for="colIndex in days.length"
+            :key="colIndex"
+            @mousemove="move(rowIndex, colIndex)"
+            :class="isSelectedRowAndCol(rowIndex, colIndex) ? 'selected' : ''"
+          >
+            {{ rowIndex }}-{{ colIndex }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -18,10 +26,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
+
 defineOptions({
-  name: "TableSelect",
+  name: "ZTableSelect",
 });
+defineProps({
+  modelValue: {
+    type: Array,
+    default: () => [],
+  },
+});
+defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue"]);
 
 const days = ref(["周一", "周二", "周三", "周四", "周五", "周六", "周日"]);
 const timeSlots = ref([
@@ -36,8 +53,77 @@ const timeSlots = ref([
   "16:00-18:00",
   "18:00-20:00",
   "20:00-22:00",
-  "22:00-24:00",
+  "22:00-00:00",
 ]);
+
+const selectedCells = ref<{ rowIndex: number; colIndex: number }[]>([]);
+const selectedCellsValue = ref<{ time: string; cycle: string }[]>([]);
+
+// 鼠标是否按下
+const isMouseDown = ref(false);
+
+// 记录上一次选中的单元格
+const lastSelectedCell = ref<{ rowIndex: number; colIndex: number }>({
+  rowIndex: -1,
+  colIndex: -1,
+});
+
+const move = (rowIndex: number, colIndex: number) => {
+  if (!isMouseDown.value) {
+    return;
+  }
+  if (
+    lastSelectedCell.value.rowIndex === rowIndex &&
+    lastSelectedCell.value.colIndex === colIndex
+  ) {
+    return;
+  }
+  selectedCells.value.push({
+    rowIndex,
+    colIndex,
+  });
+  // 去重
+  selectedCellsValue.value = selectedCellsValue.value.filter((item) => {
+    return (
+      item.time !== timeSlots.value[rowIndex] ||
+      item.cycle !== days.value[colIndex]
+    );
+  });
+  selectedCellsValue.value.push(getSelectedCellsValue(rowIndex, colIndex));
+  console.log(selectedCellsValue.value);
+  emit("update:modelValue", selectedCellsValue.value);
+};
+
+const isSelectedRowAndCol = (rowIndex: number, colIndex: number) => {
+  return selectedCells.value.some((item: any) => {
+    return item.rowIndex === rowIndex && item.colIndex === colIndex;
+  });
+};
+
+// 计算选中的单元格位置拿到选中的单元格的时间和周期
+const getSelectedCellsValue = (rowIndex: number, colIndex: number) => {
+  return {
+    time: timeSlots.value[rowIndex],
+    cycle: days.value[colIndex],
+  };
+};
+
+onMounted(() => {
+  window.addEventListener("mousedown", () => {
+    selectedCells.value = [];
+    selectedCellsValue.value = [];
+    isMouseDown.value = true;
+  });
+
+  window.addEventListener("mouseup", () => {
+    isMouseDown.value = false;
+  });
+});
+// 组件销毁时移除全局鼠标抬起事件监听器
+onBeforeUnmount(() => {
+  window.removeEventListener("mousedown", () => {});
+  window.removeEventListener("mouseup", () => {});
+});
 </script>
 
 <style scoped>
@@ -63,7 +149,7 @@ td.selected {
   /* 选中样式 */
 }
 
-td:hover {
+.time-cell:hover {
   background-color: rgba(0, 0, 255, 0.1);
   /* 悬停样式 */
 }
@@ -78,9 +164,7 @@ td:hover {
   z-index: 2;
 }
 .time-box {
-  cursor: not-allowed;
   background-color: #f5f5f5;
   color: #333;
-  /* font-weight: bold; */
 }
 </style>
