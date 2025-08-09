@@ -38,7 +38,6 @@ defineProps({
   },
 });
 defineEmits(["update:modelValue"]);
-const emit = defineEmits(["update:modelValue"]);
 
 const days = ref(["周一", "周二", "周三", "周四", "周五", "周六", "周日"]);
 const timeSlots = ref([
@@ -91,7 +90,6 @@ const move = (rowIndex: number, colIndex: number) => {
   });
   selectedCellsValue.value.push(getSelectedCellsValue(rowIndex, colIndex));
   console.log(selectedCellsValue.value);
-  emit("update:modelValue", selectedCellsValue.value);
 };
 
 const isSelectedRowAndCol = (rowIndex: number, colIndex: number) => {

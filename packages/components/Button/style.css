@@ -1,0 +1,68 @@
+.z-button {
+  --z-color-disabled: var(--z-color-disabled);
+  --z-color-disabled-text: var(--z-color-disabled-text);
+  --z-color-disabled-border: var(--z-color-disabled-border);
+  --z-color-bg: var(--z-color-bg);
+  --z-color-border: var(--z-color-border);
+}
+
+.z-button--primary {
+  color: var(--z-color-text);
+  background-color: var(--z-color-primary);
+  border-color: var(--z-color-primary);
+  border-radius: 4px;
+}
+.z-button--link {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.z-button--link:hover {
+  color: #ab3de6;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.z-button--primary:hover {
+  background-color: var(--z-color-primary);
+}
+
+.z-button:disabled {
+  background-color: var(--z-color-disabled);
+}
+
+.z-button--link {
+  color: var(--z-color-link);
+}
+
+.z-button--link:hover {
+  background-color: var(--z-color-link);
+}
+
+.z-button--link:disabled {
+  background-color: var(--z-color-disabled);
+}
+
+/* 按钮大小 */
+.z-button--small {
+  width: 80px;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.z-button--default {
+  width: 100px;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+.z-button--large {
+  width: 120px;
+  padding: 12px 20px;
+  font-size: 16px;
+}
+
+.z-button--round {
+  border-radius: 4px;
+}
+
+

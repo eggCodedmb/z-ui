@@ -1,1 +1,18 @@
 @import "./reset.css";
+
+:root {
+  --z-color-primary: #409eff;
+  --z-color-success: #67c23a;
+  --z-color-warning: #e6a23c;
+  --z-color-danger: #f56c6c;
+  --z-color-info: #909399;
+  --z-color-text: #303133;
+  --z-color-link: #409eff;
+
+  --z-color-disabled: #f5f7fa;
+  --z-color-disabled-text: #c0c4cc;
+  --z-color-disabled-border: #e4e7ed;
+
+  --z-color-bg: #fff;
+  --z-color-border: #e4e7ed;
+}
